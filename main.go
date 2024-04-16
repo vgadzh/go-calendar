@@ -37,13 +37,13 @@ func main() {
 			return err
 		}
 
-		print_calendar(weeksBefore, weeksAfter)
+		printCalendar(weeksBefore, weeksAfter)
 		return nil
 	}
 	app.Run(os.Args)
 
 }
-func print_calendar(weeksBefore, weeksAfter int) {
+func printCalendar(weeksBefore, weeksAfter int) {
 	now := time.Now()
 	weekdayNumber := int(now.Weekday())
 
