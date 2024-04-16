@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"os"
 	"strconv"
 	"time"
@@ -38,6 +39,11 @@ func main() {
 		}
 
 		printCalendar(weeksBefore, weeksAfter)
+		black := color.New(color.FgBlack)
+		whiteBackground := black.Add(color.BgWhite).Add(color.Bold)
+		whiteBackground.Println("Black text with white background.")
+		color.Yellow("cyan")
+		fmt.Println("Regular text")
 		return nil
 	}
 	app.Run(os.Args)
