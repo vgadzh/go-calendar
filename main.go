@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/fatih/color"
 	"os"
 	"strconv"
 	"time"
 
+	"github.com/fatih/color"
 	"github.com/urfave/cli"
 )
 
@@ -25,6 +25,10 @@ func main() {
 			Value: "0",
 			Usage: "Next week count",
 		},
+		cli.BoolFlag{
+			Name:  "print-month, m",
+			Usage: "Print current month",
+		},
 	}
 	app.Action = func(c *cli.Context) error {
 		weeksBefore, err := strconv.Atoi(c.GlobalString("before"))
@@ -37,8 +41,9 @@ func main() {
 			fmt.Fprintf(os.Stderr, "weeksAfter parsing error %v", err)
 			return err
 		}
+		printMonth := c.GlobalBool("print-month")
 
-		printCalendar(weeksBefore, weeksAfter)
+		printCalendar(weeksBefore, weeksAfter, printMonth)
 		black := color.New(color.FgBlack)
 		whiteBackground := black.Add(color.BgWhite).Add(color.Bold)
 		whiteBackground.Println("Black text with white background.")
@@ -49,9 +54,12 @@ func main() {
 	app.Run(os.Args)
 
 }
-func printCalendar(weeksBefore, weeksAfter int) {
+func printCalendar(weeksBefore, weeksAfter int, printMonth bool) {
 	now := time.Now()
 	weekdayNumber := int(now.Weekday())
+	if printMonth {
+		fmt.Println(now.Month())
+	}
 
 	for i := 1 - 7*weeksBefore; i <= 7+7*weeksAfter; i++ {
 		newDay := now.AddDate(0, 0, i-weekdayNumber).Day()
