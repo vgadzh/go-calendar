@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/fatih/color"
 	"os"
 	"strconv"
 	"strings"
@@ -10,6 +9,19 @@ import (
 
 	"github.com/urfave/cli"
 )
+
+var Reset = "\033[0m"
+var Red = "\033[31m"
+var Green = "\033[32m"
+var Yellow = "\033[33m"
+var Blue = "\033[34m"
+var Magenta = "\033[35m"
+var Cyan = "\033[36m"
+var Gray = "\033[37m"
+var BoldGray = "\033[37;1m"
+var White = "\033[37m"
+var WhiteBold = "\033[37;0m"
+var WhiteBg = "\033[47m"
 
 func main() {
 	app := cli.NewApp()
@@ -62,10 +74,11 @@ func main() {
 }
 func printCalendar(weeksBefore, weeksAfter int, printMonth, printColors bool) {
 	now := time.Now()
+	//bold := color.New(color.Bold)
 	if printMonth {
 		if printColors {
-			color := color.New(color.Bold)
-			color.Println(now.Month())
+			//bold.Println(now.Month())
+			fmt.Println(WhiteBold + now.Month().String() + Reset)
 		} else {
 			fmt.Println(now.Month())
 		}
@@ -76,10 +89,16 @@ func printCalendar(weeksBefore, weeksAfter int, printMonth, printColors bool) {
 		newDate := now.AddDate(0, 0, i-weekdayNumber)
 		var str string
 		if printColors && newDate.Equal(now) {
-			black := color.New(color.FgBlack)
-			whiteBackground := black.Add(color.BgWhite).Add(color.Bold)
-			str = whiteBackground.Sprint(newDate.Day())
+			//black := color.New(color.FgBlack)
+			//whiteBackground := black.Add(color.BgWhite).Add(color.Bold)
+			//str = whiteBackground.Sprint(newDate.Day())
+			str = WhiteBg + strconv.Itoa(newDate.Day()) + Reset
+		} else if printColors && newDate.Before(now) {
+			//str = strconv.Itoa(newDate.Day())
+			//str = hiWhite.Sprint(newDate.Day())
+			str = Gray + strconv.Itoa(newDate.Day()) + Reset
 		} else {
+			//str = bold.Sprint(newDate.Day())
 			str = strconv.Itoa(newDate.Day())
 		}
 		tabSize := 5
