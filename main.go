@@ -13,7 +13,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "Calendar"
-	app.Usage = "Prints current weekdays, optional previous weeks and optional next weeks"
+	app.Usage = "Prints a calendar for the current week. Optionally, it can print the given count of weeks before and after the current week."
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "before, b",
