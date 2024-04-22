@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/urfave/cli"
+	colors "github.com/vgadzh/go-calendar/pkg/helper"
 )
 
 func main() {
@@ -29,6 +30,10 @@ func main() {
 			Name:  "print-month, m",
 			Usage: "Print current month",
 		},
+		cli.BoolFlag{
+			Name:  "colored-output, c",
+			Usage: "Use colors to highlight the output",
+		},
 	}
 	app.Action = func(c *cli.Context) error {
 		weeksBefore, err := strconv.Atoi(c.GlobalString("before"))
@@ -42,24 +47,36 @@ func main() {
 			return err
 		}
 		printMonth := c.GlobalBool("print-month")
+		useColors := c.GlobalBool("colored-output")
 
-		printCalendar(weeksBefore, weeksAfter, printMonth)
+		printCalendar(weeksBefore, weeksAfter, printMonth, useColors)
 		return nil
 	}
 	app.Run(os.Args)
 
 }
-func printCalendar(weeksBefore, weeksAfter int, printMonth bool) {
+func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors bool) {
 	now := time.Now()
 
 	if printMonth {
-		fmt.Println(now.Month())
+		if useColors {
+			fmt.Println(colors.GetColoredString(now.Month().String(), colors.BoldWhite))
+		} else {
+			fmt.Println(now.Month())
+		}
 	}
 
 	weekdayNumber := int(now.Weekday())
 	for i := 1 - 7*weeksBefore; i <= 7+7*weeksAfter; i++ {
 		newDate := now.AddDate(0, 0, i-weekdayNumber)
-		str := strconv.Itoa(newDate.Day())
+		var str string
+		if useColors && newDate.Equal(now) {
+			str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.Black, colors.OnWhite)
+		} else if newDate.Before(now){
+			str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.FaintWhite)
+		} else {
+			str = strconv.Itoa(newDate.Day())
+		}
 		tabSize := 5
 		tabs := tabSize - len(strconv.Itoa(newDate.Day()))
 		fmt.Print(str)
