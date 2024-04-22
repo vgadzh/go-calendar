@@ -14,6 +14,16 @@ const (
 	Cyan   = "\033[0;36m"
 	White  = "\033[0;37m"
 
+	// Faint
+	FaintBlack  = "\033[2;30m"
+	FaintRed    = "\033[2;31m"
+	FaintGreen  = "\033[2;32m"
+	FaintYellow = "\033[2;33m"
+	FaintBlue   = "\033[2;34m"
+	FaintPurple = "\033[2;35m"
+	FaintCyan   = "\033[2;36m"
+	FaintWhite  = "\033[2;37m"
+
 	// Bold
 	BoldBlack  = "\033[1;30m"
 	BoldRed    = "\033[1;31m"
