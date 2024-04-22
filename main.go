@@ -59,7 +59,11 @@ func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors bool) {
 	now := time.Now()
 
 	if printMonth {
-		fmt.Println(now.Month())
+		if useColors {
+			fmt.Println(colors.GetColoredString(now.Month().String(), colors.Black, colors.OnWhite))
+		} else {
+			fmt.Println(now.Month())
+		}
 	}
 
 	weekdayNumber := int(now.Weekday())
@@ -67,7 +71,7 @@ func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors bool) {
 		newDate := now.AddDate(0, 0, i-weekdayNumber)
 		var str string
 		if useColors && newDate.Equal(now) {
-			str = colors.GetColoredString(strconv.Itoa(newDate.Day()),colors.Black, colors.OnWhite)
+			str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.Black, colors.OnWhite)
 		} else {
 			str = strconv.Itoa(newDate.Day())
 		}
