@@ -2,7 +2,7 @@
 
 ## About
 
-Prints a calendar for the current week. Optionally, it can print the given count of weeks before and after the current week.
+Prints a calendar for the current week. Optionally, it can print the given count of weeks before and after the current week. Supports ANSI colored output.
 
 ## Using examples
 
@@ -65,5 +65,6 @@ GLOBAL OPTIONS:
    --before value, -b value  Previous week count (default: "0")
    --after value, -a value   Next week count (default: "0")
    --print-month, -m         Print current month
+   --colored-output, -c      Use colors to highlight the output
    --help, -h  
 ```
