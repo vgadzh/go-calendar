@@ -9,14 +9,14 @@ Prints a calendar for the current week. Optionally, it can print the given count
 Print the current week
 
 ```bash
-go run main.go
+./go-calendar 
 22   23   24   25   26   27   28
 ```
 
 Print the month name
 
 ```bash
-go run main.go -m
+./go-calendar -m
 April
 22   23   24   25   26   27   28
 ```
@@ -24,7 +24,7 @@ April
 Print one week before the current week
 
 ```bash
-go run main.go -b 1
+./go-calendar -b 1
 15   16   17   18   19   20   21
 22   23   24   25   26   27   28
 ```
@@ -32,7 +32,7 @@ go run main.go -b 1
 Print one week after the current week
 
 ```bash
-go run main.go -a 1
+./go-calendar -a 1
 22   23   24   25   26   27   28
 29   30   1    2    3    4    5
 ```
@@ -40,7 +40,7 @@ go run main.go -a 1
 Print one week before and 3 weeks after the current week
 
 ```bash
-go run main.go -b 1 -a 3
+./go-calendar -b 1 -a 3
 15   16   17   18   19   20   21
 22   23   24   25   26   27   28
 29   30   1    2    3    4    5
@@ -51,7 +51,7 @@ go run main.go -b 1 -a 3
 Print help
 
 ```bash
-go run main.go help
+./go-calendar help
 NAME:
    Calendar - Prints a calendar for the current week. Optionally, it can print the given count of weeks before and after the current week.
 
