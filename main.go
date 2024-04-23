@@ -11,6 +11,7 @@ import (
 	colors "github.com/vgadzh/go-calendar/pkg/helper"
 )
 
+// main
 func main() {
 	app := cli.NewApp()
 	app.Name = "Calendar"
@@ -34,6 +35,10 @@ func main() {
 			Name:  "colored-output, c",
 			Usage: "Use colors to highlight the output",
 		},
+		cli.BoolFlag{
+			Name:  "print-weekdays, w",
+			Usage: "Print weekday names",
+		},
 	}
 	app.Action = func(c *cli.Context) error {
 		weeksBefore, err := strconv.Atoi(c.GlobalString("before"))
@@ -48,14 +53,17 @@ func main() {
 		}
 		printMonth := c.GlobalBool("print-month")
 		useColors := c.GlobalBool("colored-output")
+		printWeekdays := c.GlobalBool("print-weekdays")
 
-		printCalendar(weeksBefore, weeksAfter, printMonth, useColors)
+		printCalendar(weeksBefore, weeksAfter, printMonth, useColors, printWeekdays)
 		return nil
 	}
 	app.Run(os.Args)
 
 }
-func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors bool) {
+
+// printCalendar
+func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors, printWeekdays bool) {
 	now := time.Now()
 
 	if printMonth {
@@ -66,23 +74,46 @@ func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors bool) {
 		}
 	}
 
+	tabSize := 5
+	weekDayLetterCount := 3
+	spaceCount := tabSize - weekDayLetterCount
+	if printWeekdays {
+		// Monday to Saturday
+		for i := 1; i <= 6; i++ {
+			name := time.Weekday(i).String()
+			fmt.Print(name[0:weekDayLetterCount])
+			fmt.Print(getSpaces(spaceCount))
+		}
+		// Sunday
+		name := time.Weekday(0).String()
+		fmt.Print(name[0:weekDayLetterCount])
+		fmt.Print(getSpaces(spaceCount))
+		fmt.Println()
+	}
+
 	weekdayNumber := int(now.Weekday())
 	for i := 1 - 7*weeksBefore; i <= 7+7*weeksAfter; i++ {
 		newDate := now.AddDate(0, 0, i-weekdayNumber)
-		var str string
-		if useColors && newDate.Equal(now) {
-			str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.Black, colors.OnWhite)
-		} else if useColors && newDate.Before(now){
-			str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.FaintWhite)
-		} else {
-			str = strconv.Itoa(newDate.Day())
+		str := strconv.Itoa(newDate.Day())
+
+		if useColors {
+			if newDate.Equal(now) {
+				str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.Black, colors.OnWhite)
+			} else if newDate.Before(now) {
+				str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.FaintWhite)
+			}
 		}
-		tabSize := 5
-		tabs := tabSize - len(strconv.Itoa(newDate.Day()))
+
+		spaceCount := tabSize - len(strconv.Itoa(newDate.Day()))
 		fmt.Print(str)
-		fmt.Print(strings.Repeat(" ", tabs))
+		fmt.Print(getSpaces(spaceCount))
 		if i%7 == 0 {
 			fmt.Println()
 		}
 	}
+}
+
+// getSpaces
+func getSpaces(count int) string {
+	return strings.Repeat(" ", count)
 }

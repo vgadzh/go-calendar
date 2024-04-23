@@ -48,6 +48,14 @@ Print one week before and 3 weeks after the current week
 13   14   15   16   17   18   19
 ```
 
+Print weekday names
+
+```bash
+./go-calendar -w
+Mon  Tue  Wed  Thu  Fri  Sat  Sun
+22   23   24   25   26   27   28
+```
+
 Print help
 
 ```bash
@@ -66,5 +74,6 @@ GLOBAL OPTIONS:
    --after value, -a value   Next week count (default: "0")
    --print-month, -m         Print current month
    --colored-output, -c      Use colors to highlight the output
+   --print-weekdays, -w      Print weekday names
    --help, -h  
 ```
