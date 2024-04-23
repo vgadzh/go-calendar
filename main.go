@@ -21,7 +21,7 @@ func main() {
 			Name:  "version",
 			Usage: "Print version information",
 			Action: func(c *cli.Context) error {
-				fmt.Println("v0.3.1")
+				fmt.Println("v0.3.2")
 				return nil
 			},
 		},
@@ -76,38 +76,8 @@ func main() {
 func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors, printWeekdays bool) {
 	now := time.Now()
 
-	if printMonth {
-		if useColors {
-			fmt.Println(colors.GetColoredString(now.Month().String(), colors.BoldWhite))
-		} else {
-			fmt.Println(now.Month())
-		}
-	}
-
 	tabSize := 5
-	weekDayLetterCount := 3
-	spaceCount := tabSize - weekDayLetterCount
-	if printWeekdays {
-		// Monday to Saturday
-		for i := 1; i <= 6; i++ {
-			name := time.Weekday(i).String()[0:weekDayLetterCount]
-			if useColors && i == 6 {
-				fmt.Print(getWeekendStyledString(name))
-			} else {
-				fmt.Print(name)
-			}
-			fmt.Print(getSpaces(spaceCount))
-		}
-		// Sunday
-		name := time.Weekday(0).String()[0:weekDayLetterCount]
-		if useColors {
-			fmt.Print(getWeekendStyledString(name))
-		} else {
-			fmt.Print(name)
-		}
-		fmt.Print(getSpaces(spaceCount))
-		fmt.Println()
-	}
+	weekDayLetterCount := 2
 
 	weekdayNumber := int(now.Weekday())
 	for i := 1 - 7*weeksBefore; i <= 7+7*weeksAfter; i++ {
@@ -134,8 +104,49 @@ func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors, printWeek
 		}
 
 		if newDate.Day() == 1 {
-			fmt.Println()
-			fmt.Print(getSpaces((int(newDate.Weekday()) - 1) * tabSize))
+			if i > 1-7*weeksBefore {
+				// Print empty line if not first step in the for loop
+				fmt.Println()
+			}
+			if (printMonth || printWeekdays) && i > 1-7*weeksBefore {
+				// Print empty line again if need to ptint month or weekdays
+				fmt.Println()
+			}
+			if printMonth {
+				if newDate.Year() == now.Year() {
+					fmt.Println(newDate.Month())
+				} else {
+					fmt.Println(newDate.Month().String() + " " + strconv.Itoa(newDate.Year()))
+				}
+			}
+			if printWeekdays {
+				// Monday to Saturday
+				for i := 1; i <= 6; i++ {
+					name := time.Weekday(i).String()[0:weekDayLetterCount]
+					if useColors && i == 6 {
+						fmt.Print(getWeekendStyledString(name))
+					} else {
+						fmt.Print(name)
+					}
+					fmt.Print(getSpaces(tabSize - weekDayLetterCount))
+				}
+				// Sunday
+				name := time.Weekday(0).String()[0:weekDayLetterCount]
+				if useColors {
+					fmt.Print(getWeekendStyledString(name))
+				} else {
+					fmt.Print(name)
+				}
+				fmt.Print(getSpaces(tabSize - weekDayLetterCount))
+				fmt.Println()
+			}
+			var offset int
+			if newDate.Weekday() == 0 {
+				offset = 6
+			} else {
+				offset = int(newDate.Weekday()) - 1
+			}
+			fmt.Print(getSpaces(offset * tabSize))
 		}
 
 		spaceCount := tabSize - len(strconv.Itoa(newDate.Day()))
