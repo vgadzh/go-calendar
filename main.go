@@ -16,6 +16,16 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "Calendar"
 	app.Usage = "Prints a calendar for the current week. Optionally, it can print the given count of weeks before and after the current week."
+	app.Commands = []cli.Command{
+		{
+			Name: "version",
+			Usage: "Print version information",
+			Action: func(c *cli.Context) error {
+				fmt.Println("v0.3")
+				return nil
+			},
+		},
+	}
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "before, b",

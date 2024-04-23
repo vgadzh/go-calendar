@@ -67,6 +67,7 @@ USAGE:
    main [global options] command [command options] [arguments...]
 
 COMMANDS:
+   version  Print version information
    help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
