@@ -18,10 +18,10 @@ func main() {
 	app.Usage = "Prints a calendar for the current week. Optionally, it can print the given count of weeks before and after the current week."
 	app.Commands = []cli.Command{
 		{
-			Name: "version",
+			Name:  "version",
 			Usage: "Print version information",
 			Action: func(c *cli.Context) error {
-				fmt.Println("v0.3")
+				fmt.Println("v0.3.1")
 				return nil
 			},
 		},
@@ -131,6 +131,11 @@ func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors, printWeek
 				// Future weekend
 				str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.Red)
 			}
+		}
+
+		if newDate.Day() == 1 {
+			fmt.Println()
+			fmt.Print(getSpaces((int(newDate.Weekday()) - 1) * tabSize))
 		}
 
 		spaceCount := tabSize - len(strconv.Itoa(newDate.Day()))
