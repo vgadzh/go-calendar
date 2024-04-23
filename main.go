@@ -105,10 +105,21 @@ func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors, printWeek
 		str := strconv.Itoa(newDate.Day())
 
 		if useColors {
-			if newDate.Equal(now) {
+			if newDate.Equal(now) && isWeekend(newDate) {
+				// Today is weekend
+				str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.Black, colors.OnRed)
+			} else if newDate.Equal(now) && !isWeekend(newDate) {
+				// Today
 				str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.Black, colors.OnWhite)
-			} else if newDate.Before(now) {
+			} else if newDate.Before(now) && !isWeekend(newDate) {
+				// Past day
 				str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.FaintWhite)
+			} else if newDate.Before(now) && isWeekend(newDate) {
+				// Past day and weekend
+				str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.FaintRed)
+			} else if isWeekend(newDate) {
+				// Future weekend
+				str = colors.GetColoredString(strconv.Itoa(newDate.Day()), colors.Red)
 			}
 		}
 
@@ -129,4 +140,9 @@ func getSpaces(count int) string {
 // getWeekendStyledString
 func getWeekendStyledString(text string) string {
 	return colors.GetColoredString(text, colors.Red)
+}
+
+// isWeekend
+func isWeekend(day time.Time) bool {
+	return day.Weekday() == 0 || day.Weekday() == 6
 }
