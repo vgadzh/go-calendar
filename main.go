@@ -80,13 +80,21 @@ func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors, printWeek
 	if printWeekdays {
 		// Monday to Saturday
 		for i := 1; i <= 6; i++ {
-			name := time.Weekday(i).String()
-			fmt.Print(name[0:weekDayLetterCount])
+			name := time.Weekday(i).String()[0:weekDayLetterCount]
+			if useColors && i == 6 {
+				fmt.Print(getWeekendStyledString(name))
+			} else {
+				fmt.Print(name)
+			}
 			fmt.Print(getSpaces(spaceCount))
 		}
 		// Sunday
-		name := time.Weekday(0).String()
-		fmt.Print(name[0:weekDayLetterCount])
+		name := time.Weekday(0).String()[0:weekDayLetterCount]
+		if useColors {
+			fmt.Print(getWeekendStyledString(name))
+		} else {
+			fmt.Print(name)
+		}
 		fmt.Print(getSpaces(spaceCount))
 		fmt.Println()
 	}
@@ -116,4 +124,9 @@ func printCalendar(weeksBefore, weeksAfter int, printMonth, useColors, printWeek
 // getSpaces
 func getSpaces(count int) string {
 	return strings.Repeat(" ", count)
+}
+
+// getWeekendStyledString
+func getWeekendStyledString(text string) string {
+	return colors.GetColoredString(text, colors.Red)
 }
