@@ -13,50 +13,22 @@ Print the current week
 22   23   24   25   26   27   28
 ```
 
-Print the month name
+Print one week before the current week, 3 weeks after the current week. Print month name and weekday names.
 
 ```bash
-./go-calendar -m
-April
-22   23   24   25   26   27   28
-```
-
-Print one week before the current week
-
-```bash
-./go-calendar -b 1
+./go-calendar -m -w -b 1 -a 3
 15   16   17   18   19   20   21
 22   23   24   25   26   27   28
-```
+29   30
 
-Print one week after the current week
-
-```bash
-./go-calendar -a 1
-22   23   24   25   26   27   28
-29   30   1    2    3    4    5
-```
-
-Print one week before and 3 weeks after the current week
-
-```bash
-./go-calendar -b 1 -a 3
-15   16   17   18   19   20   21
-22   23   24   25   26   27   28
-29   30   1    2    3    4    5
+May
+Mo   Tu   We   Th   Fr   Sa   Su
+          1    2    3    4    5
 6    7    8    9    10   11   12
 13   14   15   16   17   18   19
 ```
 
-Print weekday names
-
-```bash
-./go-calendar -w
-Mon  Tue  Wed  Thu  Fri  Sat  Sun
-22   23   24   25   26   27   28
-```
-
-Print help
+## Help
 
 ```bash
 ./go-calendar help
@@ -78,3 +50,7 @@ GLOBAL OPTIONS:
    --print-weekdays, -w      Print weekday names
    --help, -h  
 ```
+
+## Screenshots
+
+![image](/screenshots/1.png?raw=true)
