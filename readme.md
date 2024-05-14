@@ -17,6 +17,8 @@ Print one week before the current week, 3 weeks after the current week. Print mo
 
 ```bash
 ./go-calendar -m -w -b 1 -a 3
+April
+Mo   Tu   We   Th   Fr   Sa   Su
 15   16   17   18   19   20   21
 22   23   24   25   26   27   28
 29   30
