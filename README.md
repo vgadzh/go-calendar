@@ -33,24 +33,17 @@ Mo   Tu   We   Th   Fr   Sa   Su
 ## Help
 
 ```bash
-./go-calendar help
-NAME:
-   Calendar - Prints a calendar for the current week. Optionally, it can print the given count of weeks before and after the current week.
+./go-calendar -h
 
-USAGE:
-   main [global options] command [command options] [arguments...]
+Version: 0.3.4
+Usage: go-calendar [-b weeks] [-a weeks] [-m] [-w] [-c]
+-b: weeks before current
+-a: weeks after current
+-m: print month names
+-w: print weekday names
+-c: use colors
 
-COMMANDS:
-   version  Print version information
-   help, h  Shows a list of commands or help for one command
-
-GLOBAL OPTIONS:
-   --before value, -b value  Previous week count (default: "0")
-   --after value, -a value   Next week count (default: "0")
-   --print-month, -m         Print current month
-   --colored-output, -c      Use colors to highlight the output
-   --print-weekdays, -w      Print weekday names
-   --help, -h  
+Example: go-calendar -b 1 -a 3 -m -w -c
 ```
 
 ## Screenshots
