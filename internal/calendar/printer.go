@@ -2,6 +2,7 @@ package calendar
 
 import (
 	"fmt"
+	"io"
 	"strconv"
 	"strings"
 
@@ -13,14 +14,16 @@ type Printer struct {
 	useColors    bool
 	showMonth    bool
 	showWeekdays bool
+	writer       io.Writer
 }
 
-func NewPrinter(tabSize int, colored, printMonth, printWeekdays bool) *Printer {
+func NewPrinter(tabSize int, colored, printMonth, printWeekdays bool, w io.Writer) *Printer {
 	return &Printer{
 		tabSize:      tabSize,
 		useColors:    colored,
 		showMonth:    printMonth,
 		showWeekdays: printWeekdays,
+		writer:       w,
 	}
 }
 
@@ -41,8 +44,8 @@ func (p *Printer) Print(cal *Calendar) {
 			}
 
 		case cell.IsMonthStart:
-			fmt.Println()
-			fmt.Println()
+			_, _ = fmt.Fprintln(p.writer)
+			_, _ = fmt.Fprintln(p.writer)
 			if p.showMonth {
 				p.printCellMonth(cell)
 			}
@@ -87,7 +90,7 @@ func (p *Printer) Print(cal *Calendar) {
 		}
 
 		if cell.IsLastWeekday {
-			fmt.Println()
+			_, _ = fmt.Fprintln(p.writer)
 		}
 	}
 }
@@ -97,9 +100,9 @@ func (p *Printer) printCellMonth(cell *DateCell) {
 		return
 	}
 	if cell.IsCurrentYear {
-		fmt.Println(cell.Month)
+		_, _ = fmt.Fprintln(p.writer, cell.Month)
 	} else {
-		fmt.Println(cell.Month, cell.Year)
+		_, _ = fmt.Fprintln(p.writer, cell.Month, cell.Year)
 	}
 }
 
@@ -115,15 +118,15 @@ func (p *Printer) printWeekdays() {
 			p.printTabbed(w)
 		}
 	}
-	fmt.Println()
+	_, _ = fmt.Fprintln(p.writer)
 }
 
 func (p *Printer) printTabbed(text string) {
-	fmt.Printf("%-*s", p.tabSize, text)
+	_, _ = fmt.Fprintf(p.writer, "%-*s", p.tabSize, text)
 }
 
 func (p *Printer) printTabbedColored(ansiStr string, visibleLen int) {
 	spaces := p.tabSize - visibleLen
 	text := ansiStr + strings.Repeat(" ", spaces)
-	fmt.Printf("%-*s", p.tabSize, text)
+	_, _ = fmt.Fprintf(p.writer, "%-*s", p.tabSize, text)
 }

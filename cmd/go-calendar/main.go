@@ -19,14 +19,14 @@ func main() {
 	colored := flag.Bool("c", false, "Use colors")
 
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Version: %s\n", version)
-		fmt.Fprintf(os.Stderr, "Usage: go-calendar [-b weeks] [-a weeks] [-m] [-w] [-c]\n")
-		fmt.Fprintf(os.Stderr, "-b: weeks before current\n")
-		fmt.Fprintf(os.Stderr, "-a: weeks after current\n")
-		fmt.Fprintf(os.Stderr, "-m: print month names\n")
-		fmt.Fprintf(os.Stderr, "-w: print weekday names\n")
-		fmt.Fprintf(os.Stderr, "-c: use colors\n")
-		fmt.Fprintln(os.Stderr, "\nExample: go-calendar -b 1 -a 3 -m -w -c")
+		_, _ = fmt.Fprintf(os.Stderr, "Version: %s\n", version)
+		_, _ = fmt.Fprintf(os.Stderr, "Usage: go-calendar [-b weeks] [-a weeks] [-m] [-w] [-c]\n")
+		_, _ = fmt.Fprintf(os.Stderr, "-b: weeks before current\n")
+		_, _ = fmt.Fprintf(os.Stderr, "-a: weeks after current\n")
+		_, _ = fmt.Fprintf(os.Stderr, "-m: print month names\n")
+		_, _ = fmt.Fprintf(os.Stderr, "-w: print weekday names\n")
+		_, _ = fmt.Fprintf(os.Stderr, "-c: use colors\n")
+		_, _ = fmt.Fprintln(os.Stderr, "\nExample: go-calendar -b 1 -a 3 -m -w -c")
 	}
 
 	flag.Parse()
@@ -47,7 +47,7 @@ func main() {
 
 	now := time.Now()
 	cal := calendar.NewCalendar(now, *before, *after)
-	printer := calendar.NewPrinter(5, *colored, *printMonth, *printWeekdays)
+	printer := calendar.NewPrinter(5, *colored, *printMonth, *printWeekdays, os.Stdout)
 
 	printer.Print(cal)
 }

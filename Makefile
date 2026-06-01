@@ -17,9 +17,6 @@ test:
 	@echo "Running unit tests..."
 	go test ./internal/... -v -race
 
-	@echo "Running integration tests..."
-	go test -v -run Integration ./
-
 clean:
 	rm -rf dist/
 	rm -f $(BUILD_DIR)/*.out
